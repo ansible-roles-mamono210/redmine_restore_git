@@ -1,0 +1,9 @@
+---
+# Git archive data file
+redmine_archived_git_file: git.tar.gz
+
+# Backup data directory
+redmine_backup_data_dir: /tmp/redmine-backup
+
+# Git Directory
+redmine_git_dir: /var/git

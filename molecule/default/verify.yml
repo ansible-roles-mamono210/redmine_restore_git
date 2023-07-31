@@ -1,0 +1,27 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Find files
+      ansible.builtin.find:
+        path: '{{ redmine_git_dir }}'
+        file_type: directory
+        depth: 1
+      register: file_list
+
+    - name: Show files
+      ansible.builtin.debug:
+        msg: "{{ item.path }}"
+      loop: "{{ file_list.files }}"
+
+    - name: Check OS version
+      ansible.builtin.command: cat /etc/redhat-release
+      register: os_version
+      changed_when: false
+
+    - name: Show OS version
+      ansible.builtin.debug:
+        var: os_version

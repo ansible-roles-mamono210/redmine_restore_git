@@ -1,0 +1,26 @@
+---
+- name: Create user 'git' / git controlling account
+  ansible.builtin.user:
+    name: git
+
+- name: Delete existing git repositories
+  ansible.builtin.file:
+    path: '{{ redmine_git_dir }}'
+    state: absent
+
+- name: Unarchive git repository data file
+  ansible.builtin.unarchive:
+    src: "{{ redmine_backup_data_dir }}/{{ redmine_archived_git_file }}"
+    dest: /var
+    owner: git
+    group: git
+    mode: 0755
+    remote_src: yes
+
+- name: Change owner and group of git repository directory
+  ansible.builtin.file:
+    path: '{{ redmine_git_dir }}'
+    owner: git
+    group: git
+    mode: 0755
+    recurse: yes
