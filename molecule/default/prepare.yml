@@ -6,6 +6,12 @@
   tasks:
     - name: Load and execute roles
       ansible.builtin.include_role:
+        name: 'mamono210.swapfile'
+      vars:
+        swapfile_size: '10G'
+
+    - name: Load and execute roles
+      ansible.builtin.include_role:
         name: "{{ item }}"
       loop:
         - mamono210.aws_bootstrap
