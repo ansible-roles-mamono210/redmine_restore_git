@@ -5,13 +5,21 @@
 
 - name: Delete existing git repositories
   ansible.builtin.file:
-    path: '{{ redmine_git_dir }}'
+    path: "{{ redmine_git_dir }}"
     state: absent
+
+- name: Create git repositories directory
+  ansible.builtin.file:
+    path: "{{ redmine_git_dir }}"
+    state: directory
+    owner: git
+    group: git
+    mode: 0755
 
 - name: Unarchive git repository data file
   ansible.builtin.unarchive:
     src: "{{ redmine_backup_data_dir }}/{{ redmine_archived_git_file }}"
-    dest: /var
+    dest: "{{ redmine_git_dir }}"
     owner: git
     group: git
     mode: 0755
@@ -19,7 +27,7 @@
 
 - name: Change owner and group of git repository directory
   ansible.builtin.file:
-    path: '{{ redmine_git_dir }}'
+    path: "{{ redmine_git_dir }}"
     owner: git
     group: git
     mode: 0755
